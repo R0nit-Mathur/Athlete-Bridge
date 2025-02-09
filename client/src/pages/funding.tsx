@@ -89,8 +89,8 @@ export default function Funding() {
   const users = storage.getUsers();
 
   return (
-    <div className="container py-6">
-      <div className="max-w-3xl mx-auto">
+    <div className="ml-72 mr-80 py-6">
+      <div className="max-w-3xl mx-auto px-6">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-bold">Funding Requests</h1>
           <Dialog>

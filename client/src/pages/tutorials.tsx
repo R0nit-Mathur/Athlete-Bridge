@@ -93,7 +93,7 @@ export default function Tutorials() {
   const users = storage.getUsers();
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="ml-72 mr-80 py-6">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-2xl font-bold">Tutorials & Equipment</h1>
         <Dialog>
