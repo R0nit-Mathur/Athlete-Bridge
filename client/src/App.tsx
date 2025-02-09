@@ -1,8 +1,11 @@
-import { Switch, Route } from "wouter";
+import { Switch, Route, useLocation } from "wouter";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
 import { Sidebar } from "@/components/layout/sidebar";
+import { useEffect, useState } from "react";
+import { auth } from "@/lib/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 import Login from "@/pages/login";
 import Home from "@/pages/home";
@@ -13,14 +16,38 @@ import Tutorials from "@/pages/tutorials";
 import NotFound from "@/pages/not-found";
 
 function PrivateRoute({ component: Component }: { component: React.ComponentType }) {
-  return (
+  const [authenticated, setAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [, setLocation] = useLocation();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setAuthenticated(true);
+      } else {
+        setAuthenticated(false);
+        setLocation("/login");
+      }
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, [setLocation]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  return authenticated ? (
     <div className="flex">
       <Sidebar />
-      <div className="ml-64 flex-1 p-6">
-        <Component />
-      </div>
+      <main className="flex-1 ml-64">
+        <div className="container mx-auto p-6">
+          <Component />
+        </div>
+      </main>
     </div>
-  );
+  ) : null;
 }
 
 function Router() {
