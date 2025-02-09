@@ -4,15 +4,11 @@ import { Button } from "@/components/ui/button";
 import { NotificationsDropdown } from "@/components/ui/notifications";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-// Mock storage and user data - Replace with actual implementation
-const storage = {
-  getUsers: () => [{ name: ["John", "Doe"], username: "johndoe", avatar: "/avatar.jpg" }],
-};
-
+import { storage } from "@/lib/storage";
 
 export function Sidebar() {
   const [location] = useLocation();
-  const currentUser = storage.getUsers()[0];
+  const currentUser = storage.getUserById(1);
 
   const menuItems = [
     { icon: Home, label: "Home", path: "/" },
@@ -62,8 +58,8 @@ export function Sidebar() {
               <AvatarFallback>{currentUser?.name?.[0]}</AvatarFallback>
             </Avatar>
             <div className="flex-1 text-left">
-              <p className="font-medium line-clamp-1">{currentUser?.name}</p>
-              <p className="text-sm text-muted-foreground">@{currentUser?.username}</p>
+              <p className="font-medium line-clamp-1">{currentUser?.name || 'Guest'}</p>
+              <p className="text-sm text-muted-foreground">@{currentUser?.username || 'guest'}</p>
             </div>
           </Button>
         </Link>
