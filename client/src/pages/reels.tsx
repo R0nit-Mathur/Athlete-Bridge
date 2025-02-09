@@ -1,3 +1,4 @@
+
 import { ReelCard } from "@/components/layout/reel-card";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -5,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { Plus, Upload } from "lucide-react";
 import { storage } from "@/lib/storage";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { Label } from "@/components/ui/label";
 
 export default function Reels() {
@@ -88,90 +89,77 @@ export default function Reels() {
   return (
     <div className="ml-72 mr-80 py-6">
       <div className="flex flex-col items-center">
-      <div className="w-full flex justify-between items-center mb-8 px-6">
-        <h1 className="text-2xl font-bold">Reels</h1>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button>
-              <Plus className="w-4 h-4 mr-2" />
-              New Reel
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Upload New Reel</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-4 mt-4">
-              <div className="space-y-2">
-                <Label htmlFor="title">Title</Label>
-                <Input
-                  id="title"
-                  value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  placeholder="Enter a title for your reel"
-                />
+        <div className="w-full flex justify-between items-center mb-8 px-6">
+          <h1 className="text-2xl font-bold">Reels</h1>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button>
+                <Plus className="w-4 h-4 mr-2" />
+                New Reel
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Upload New Reel</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4 mt-4">
+                <div className="space-y-2">
+                  <Label htmlFor="title">Title</Label>
+                  <Input
+                    id="title"
+                    value={formData.title}
+                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                    placeholder="Enter a title for your reel"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="video">Upload Video</Label>
+                  <Input
+                    id="video"
+                    type="file"
+                    accept="video/*"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        const url = URL.createObjectURL(file);
+                        setFormData({ ...formData, videoUrl: url });
+                      }
+                    }}
+                  />
+                </div>
+                <DialogClose asChild>
+                  <Button 
+                    className="w-full" 
+                    onClick={handleSubmit}
+                    disabled={!formData.title || !formData.videoUrl || isUploading}
+                  >
+                    {isUploading ? (
+                      <>
+                        <Upload className="w-4 h-4 mr-2 animate-spin" />
+                        Uploading...
+                      </>
+                    ) : (
+                      <>
+                        <Upload className="w-4 h-4 mr-2" />
+                        Upload Reel
+                      </>
+                    )}
+                  </Button>
+                </DialogClose>
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="video">Upload Video</Label>
-                <Input
-                  id="video"
-                  type="file"
-                  accept="video/*"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    if (file) {
-                      const url = URL.createObjectURL(file);
-                      setFormData({ ...formData, videoUrl: url });
-                    }
-                  }}
-                />
-              </div>
-              <DialogClose asChild>
-                <Button 
-                  className="w-full" 
-                  onClick={handleSubmit}
-                  disabled={!formData.title || !formData.videoUrl || isUploading}
-                >
-                  {isUploading ? (
-                    <>
-                      <Upload className="w-4 h-4 mr-2 animate-spin" />
-                      Uploading...
-                    </>
-                  ) : (
-                    <>
-                      <Upload className="w-4 h-4 mr-2" />
-                      Upload Reel
-                    </>
-                  )}
-                </Button>
-              </DialogClose>
-            </div>
-          </DialogContent>
-        </Dialog>
+            </DialogContent>
+          </Dialog>
+        </div>
+        <div className="flex flex-col gap-6">
+          {reels.map((reel) => (
+            <ReelCard
+              key={reel.id}
+              reel={reel}
+              user={users.find((u) => u.id === reel.userId)!}
+            />
+          ))}
+        </div>
       </div>
-
-      import { PageContainer } from "@/components/layout/page-container";
-import { ReelCard } from "@/components/layout/reel-card";
-import { DialogClose } from "@/components/ui/dialog";
-import { storage } from "@/lib/storage";
-
-export default function Reels() {
-  const reels = storage.getReels();
-  const users = storage.getUsers();
-
-  return (
-    <PageContainer>
-      <div className="flex flex-col items-center gap-6">
-        {reels.map((reel) => (
-          <ReelCard
-            key={reel.id}
-            reel={reel}
-            user={users.find((u) => u.id === reel.userId)!}
-          />
-        ))}
-      </div>
-    </PageContainer>
-  );
-}
+    </div>
   );
 }
