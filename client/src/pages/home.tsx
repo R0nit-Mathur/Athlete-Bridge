@@ -101,7 +101,7 @@ export default function Home() {
   const users = storage.getUsers();
 
   return (
-    <div className="ml-72 mr-80 py-6">
+    <PageContainer>
       <div className="max-w-2xl mx-auto px-6">
         <div className="mb-8">
           <Textarea
@@ -164,6 +164,6 @@ export default function Home() {
         </div>
       </div>
       {/* Right sidebar will be rendered here by the layout */}
-    </div>
+    </PageContainer>
   );
 }

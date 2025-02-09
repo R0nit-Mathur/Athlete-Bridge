@@ -33,10 +33,10 @@ function PrivateRoute({ component: Component }: { component: React.ComponentType
   }
 
   return (
-    <div className="flex justify-center w-full">
-      <div className="flex max-w-[1600px] w-full">
+    <div className="flex justify-center w-full min-h-screen bg-background">
+      <div className="flex w-full max-w-7xl mx-auto">
         <Sidebar />
-        <main className="flex-1">
+        <main className="w-[600px] min-h-screen border-x border-border">
           <Component />
         </main>
         <RightSidebar />
