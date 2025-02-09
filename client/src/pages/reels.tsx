@@ -99,9 +99,9 @@ export default function Reels() {
   const users = storage.getUsers();
 
   return (
-    <div className="py-6 flex flex-col items-center w-full min-h-screen">
+    <div className="py-6 flex flex-col items-center w-full min-h-screen px-4">
       {/* Header Section */}
-      <div className="flex justify-between items-center w-full max-w-3xl px-6 mb-6">
+      <div className="flex flex-col sm:flex-row justify-between items-center w-full max-w-3xl px-2 sm:px-6 mb-6 gap-4">
         <h1 className="text-3xl font-bold text-gray-800">Reels</h1>
         <Dialog>
           <DialogTrigger asChild>

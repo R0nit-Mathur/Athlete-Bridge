@@ -41,7 +41,7 @@ export default function Profile() {
       {/* Profile Info */}
       <div className="bg-white shadow-md p-6 relative w-full max-w-3xl">
         {/* Avatar */}
-        <div className="absolute -top-12 left-6">
+        <div className="absolute -top-12 left-6 md:left-6 sm:relative sm:top-0 sm:left-0 sm:mb-4">
           <Avatar className="w-24 h-24 border-4 border-white">
             <AvatarImage src={user.avatar} />
             <AvatarFallback>{user.name[0]}</AvatarFallback>
@@ -49,7 +49,7 @@ export default function Profile() {
         </div>
 
         {/* Profile Details */}
-        <div className="mt-12 ml-32">
+        <div className="mt-12 ml-32 sm:ml-0 sm:mt-4">
           <h1 className="text-2xl font-bold">{user.name}</h1>
           <p className="text-gray-600 text-lg">@{user.username}</p>
           <p className="text-gray-700 text-base mt-2">{user.bio}</p>

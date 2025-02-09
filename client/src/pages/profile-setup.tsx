@@ -41,8 +41,8 @@ export default function ProfileSetup() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-purple-200 p-6">
-      <Card className="w-full max-w-lg bg-white/80 backdrop-blur-lg shadow-lg rounded-2xl p-6">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-purple-200 p-4 sm:p-6">
+      <Card className="w-full max-w-lg bg-white/80 backdrop-blur-lg shadow-lg rounded-2xl p-4 sm:p-6">
         <CardHeader>
           <CardTitle className="text-3xl font-bold text-center text-gray-900">
             Complete Your Profile
