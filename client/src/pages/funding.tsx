@@ -1,3 +1,4 @@
+
 import { FundingCard } from "@/components/layout/funding-card";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -90,69 +91,70 @@ export default function Funding() {
   return (
     <div className="container py-6">
       <div className="max-w-3xl mx-auto">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-bold">Funding Requests</h1>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button>
-              <Plus className="w-4 h-4 mr-2" />
-              Create Request
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Create Funding Request</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-4 mt-4">
-              <div className="space-y-2">
-                <Label htmlFor="title">Title</Label>
-                <Input
-                  id="title"
-                  value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  placeholder="Enter a title for your request"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="description">Description</Label>
-                <Textarea
-                  id="description"
-                  value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  placeholder="Describe what the funds will be used for..."
-                  className="min-h-[100px]"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="amount">Amount Needed ($)</Label>
-                <Input
-                  id="amount"
-                  type="number"
-                  value={formData.amount}
-                  onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
-                  placeholder="Enter amount needed"
-                />
-              </div>
-              <Button 
-                className="w-full" 
-                onClick={handleSubmit}
-                disabled={!formData.title || !formData.description || !formData.amount || isSubmitting}
-              >
-                {isSubmitting ? "Creating..." : "Create Request"}
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-2xl font-bold">Funding Requests</h1>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button>
+                <Plus className="w-4 h-4 mr-2" />
+                Create Request
               </Button>
-            </div>
-          </DialogContent>
-        </Dialog>
-      </div>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Create Funding Request</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4 mt-4">
+                <div className="space-y-2">
+                  <Label htmlFor="title">Title</Label>
+                  <Input
+                    id="title"
+                    value={formData.title}
+                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                    placeholder="Enter a title for your request"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="description">Description</Label>
+                  <Textarea
+                    id="description"
+                    value={formData.description}
+                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                    placeholder="Describe what the funds will be used for..."
+                    className="min-h-[100px]"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="amount">Amount Needed ($)</Label>
+                  <Input
+                    id="amount"
+                    type="number"
+                    value={formData.amount}
+                    onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
+                    placeholder="Enter amount needed"
+                  />
+                </div>
+                <Button 
+                  className="w-full" 
+                  onClick={handleSubmit}
+                  disabled={!formData.title || !formData.description || !formData.amount || isSubmitting}
+                >
+                  {isSubmitting ? "Creating..." : "Create Request"}
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+        </div>
 
-      <div className="grid gap-6">
-        {requests.map((request) => (
-          <FundingCard
-            key={request.id}
-            request={request}
-            user={users.find((u) => u.id === request.userId)!}
-          />
-        ))}
+        <div className="grid gap-6">
+          {requests.map((request) => (
+            <FundingCard
+              key={request.id}
+              request={request}
+              user={users.find((u) => u.id === request.userId)!}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
