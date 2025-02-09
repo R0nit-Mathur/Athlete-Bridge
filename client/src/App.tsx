@@ -34,12 +34,16 @@ function PrivateRoute({ component: Component }: { component: React.ComponentType
 
   return (
     <div className="flex justify-center w-full min-h-screen bg-background">
-      <div className="flex w-full max-w-7xl mx-auto">
-        <Sidebar />
-        <main className="w-[600px] min-h-screen border-x border-border">
+      <div className="flex w-full max-w-[1280px] mx-auto relative gap-4">
+        <div className="w-[275px] flex-shrink-0">
+          <Sidebar />
+        </div>
+        <main className="w-[600px] min-h-screen border-x border-border flex-shrink-0">
           <Component />
         </main>
-        <RightSidebar />
+        <div className="w-[350px] flex-shrink-0">
+          <RightSidebar />
+        </div>
       </div>
     </div>
   );

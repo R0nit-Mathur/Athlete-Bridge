@@ -150,6 +150,17 @@ export default function Reels() {
         </Dialog>
       </div>
 
+      import { PageContainer } from "@/components/layout/page-container";
+import { ReelCard } from "@/components/layout/reel-card";
+import { DialogClose } from "@/components/ui/dialog";
+import { storage } from "@/lib/storage";
+
+export default function Reels() {
+  const reels = storage.getReels();
+  const users = storage.getUsers();
+
+  return (
+    <PageContainer>
       <div className="flex flex-col items-center gap-6">
         {reels.map((reel) => (
           <ReelCard
@@ -159,7 +170,8 @@ export default function Reels() {
           />
         ))}
       </div>
-      </div>
-    </div>
+    </PageContainer>
+  );
+}
   );
 }
