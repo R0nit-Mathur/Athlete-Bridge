@@ -33,14 +33,14 @@ function PrivateRoute({ component: Component }: { component: React.ComponentType
   }
 
   return (
-    <div className="flex">
-      <Sidebar />
-      <main className="flex-1 ml-64">
-        <div className="container mx-auto p-6">
+    <div className="flex justify-center w-full">
+      <div className="flex max-w-[1600px] w-full">
+        <Sidebar />
+        <main className="flex-1">
           <Component />
-        </div>
-      </main>
-      <RightSidebar />
+        </main>
+        <RightSidebar />
+      </div>
     </div>
   );
 }
