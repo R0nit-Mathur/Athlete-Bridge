@@ -89,7 +89,7 @@ export default function Funding() {
 
   return (
     <div className="ml-72 mr-80 py-6">
-      <div className="w-full px-6">
+      <div className="max-w-4xl mx-auto w-full px-6">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-bold">Funding Requests</h1>
           <Dialog>

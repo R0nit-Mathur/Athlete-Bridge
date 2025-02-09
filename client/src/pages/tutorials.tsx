@@ -94,7 +94,8 @@ export default function Tutorials() {
 
   return (
     <div className="ml-72 mr-80 py-6">
-      <div className="flex justify-between items-center mb-8">
+      <div className="max-w-4xl mx-auto">
+        <div className="flex justify-between items-center mb-12">
         <h1 className="text-2xl font-bold">Tutorials & Equipment</h1>
         <Dialog>
           <DialogTrigger asChild>
@@ -167,7 +168,7 @@ export default function Tutorials() {
         </Dialog>
       </div>
 
-      <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-8">
         {tutorials.map((tutorial) => {
           const user = users.find((u) => u.id === tutorial.userId)!;
           return (

@@ -88,8 +88,8 @@ export default function Reels() {
   return (
     <div className="ml-72 mr-80 py-6">
       <div className="flex flex-col items-center">
-        <div className="w-full flex justify-between items-center mb-8 px-6">
-          <h1 className="text-2xl font-bold mb-4">Reels</h1>
+        <div className="w-full flex justify-between items-center mb-12 px-6">
+          <h1 className="text-2xl font-bold">Reels</h1>
           <Dialog>
             <DialogTrigger asChild>
               <Button>
