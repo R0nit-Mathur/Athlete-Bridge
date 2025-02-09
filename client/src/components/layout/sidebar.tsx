@@ -18,7 +18,7 @@ export function Sidebar() {
   ];
 
   return (
-    <div className="w-72 h-screen bg-background border-r flex flex-col fixed">
+    <div className="w-[275px] h-screen bg-background border-r flex flex-col fixed left-auto">
       {/* Header with logo and notifications */}
       <div className="p-6 border-b">
         <div className="flex items-center justify-between">

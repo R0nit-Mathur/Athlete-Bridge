@@ -19,7 +19,7 @@ export function RightSidebar() {
   ];
 
   return (
-    <div className="w-80 p-4 space-y-6 border-l h-screen bg-background fixed right-0 top-0 overflow-y-auto">
+    <div className="w-[350px] p-4 space-y-6 border-l h-screen bg-background fixed right-auto top-0 overflow-y-auto">
       {/* Search Bar */}
       <div className="relative">
         <input
