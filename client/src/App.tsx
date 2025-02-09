@@ -38,7 +38,7 @@ function PrivateRoute({
 
   return (
     <div className="flex justify-center w-full min-h-screen bg-background border-x border-border">
-      <div className="flex w-full max-w-[1280px] mx-auto relative gap-4">
+      <div className="flex w-full max-w-[1280px] mx-auto relative gap-4 justify-center">
         <div className="w-[275px] flex-shrink-0">
           <Sidebar />
         </div>
