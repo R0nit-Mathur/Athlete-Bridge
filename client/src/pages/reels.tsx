@@ -86,7 +86,8 @@ export default function Reels() {
   const users = storage.getUsers();
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="container py-6">
+      <div className="max-w-7xl mx-auto">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-2xl font-bold">Reels</h1>
         <Dialog>

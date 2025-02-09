@@ -101,8 +101,8 @@ export default function Home() {
   const users = storage.getUsers();
 
   return (
-    <div className="flex gap-6">
-      <div className="flex-1 max-w-2xl">
+    <div className="container py-6">
+      <div className="max-w-2xl mx-auto">
         <div className="mb-8">
           <Textarea
             placeholder="What's happening in your sports journey?"
