@@ -1,7 +1,6 @@
-
 import { FundingCard } from "@/components/layout/funding-card";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { Plus } from "lucide-react";
@@ -134,13 +133,15 @@ export default function Funding() {
                     placeholder="Enter amount needed"
                   />
                 </div>
-                <Button 
-                  className="w-full" 
-                  onClick={handleSubmit}
-                  disabled={!formData.title || !formData.description || !formData.amount || isSubmitting}
-                >
-                  {isSubmitting ? "Creating..." : "Create Request"}
-                </Button>
+                <DialogClose asChild>
+                  <Button 
+                    className="w-full" 
+                    onClick={handleSubmit}
+                    disabled={!formData.title || !formData.description || !formData.amount || isSubmitting}
+                  >
+                    {isSubmitting ? "Creating..." : "Create Request"}
+                  </Button>
+                </DialogClose>
               </div>
             </DialogContent>
           </Dialog>

@@ -86,9 +86,9 @@ export default function Reels() {
   const users = storage.getUsers();
 
   return (
-    <div className="container py-6">
-      <div className="max-w-7xl mx-auto">
-      <div className="flex justify-between items-center mb-8">
+    <div className="ml-72 mr-80 py-6">
+      <div className="flex flex-col items-center">
+      <div className="w-full flex justify-between items-center mb-8 px-6">
         <h1 className="text-2xl font-bold">Reels</h1>
         <Dialog>
           <DialogTrigger asChild>
@@ -112,17 +112,24 @@ export default function Reels() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="video">Video URL</Label>
+                <Label htmlFor="video">Upload Video</Label>
                 <Input
                   id="video"
-                  value={formData.videoUrl}
-                  onChange={(e) => setFormData({ ...formData, videoUrl: e.target.value })}
-                  placeholder="Enter video URL (e.g., Vimeo, YouTube)"
+                  type="file"
+                  accept="video/*"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      const url = URL.createObjectURL(file);
+                      setFormData({ ...formData, videoUrl: url });
+                    }
+                  }}
                 />
               </div>
-              <Button 
-                className="w-full" 
-                onClick={handleSubmit}
+              <DialogClose asChild>
+                <Button 
+                  className="w-full" 
+                  onClick={handleSubmit}
                 disabled={!formData.title || !formData.videoUrl || isUploading}
               >
                 {isUploading ? (
