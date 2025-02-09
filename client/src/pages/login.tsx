@@ -3,16 +3,28 @@ import { Button } from "@/components/ui/button";
 import { SiGoogle } from "react-icons/si";
 import { signInWithGoogle } from "@/lib/firebase";
 import { useLocation } from "wouter";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Login() {
   const [, setLocation] = useLocation();
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
 
   const handleLogin = async () => {
+    setIsLoading(true);
     try {
       await signInWithGoogle();
       setLocation("/");
-    } catch (error) {
+    } catch (error: any) {
       console.error("Login failed:", error);
+      toast({
+        title: "Login Failed",
+        description: error.message || "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -30,10 +42,11 @@ export default function Login() {
           </div>
           <Button
             onClick={handleLogin}
+            disabled={isLoading}
             className="w-full flex items-center justify-center gap-2"
           >
             <SiGoogle className="w-5 h-5" />
-            Sign in with Google
+            {isLoading ? "Signing in..." : "Sign in with Google"}
           </Button>
         </CardContent>
       </Card>
