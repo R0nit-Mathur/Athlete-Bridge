@@ -1,8 +1,8 @@
 import { Express } from "express";
 import { createServer } from "http";
+import { WebSocketServer } from "ws";
 import { storage } from "./storage";
 import { insertUserSchema, insertPostSchema, insertReelSchema, insertFundingSchema, insertTutorialSchema } from "@shared/schema";
-import { z } from "zod";
 
 export function registerRoutes(app: Express) {
   // User routes
@@ -87,5 +87,33 @@ export function registerRoutes(app: Express) {
   });
 
   const server = createServer(app);
+
+  // Create WebSocket server
+  const wss = new WebSocketServer({ server, path: '/ws' });
+
+  wss.on('connection', (ws) => {
+    console.log('New WebSocket connection');
+
+    // Send a welcome notification
+    ws.send(JSON.stringify({
+      type: 'notification',
+      data: {
+        id: Date.now(),
+        title: 'Welcome!',
+        message: 'Welcome to Athlete Bridge! Start by exploring the platform.',
+        timestamp: new Date(),
+      },
+    }));
+
+    ws.on('message', (message) => {
+      // Handle incoming messages if needed
+      console.log('received: %s', message);
+    });
+
+    ws.on('close', () => {
+      console.log('Client disconnected');
+    });
+  });
+
   return server;
 }
