@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Sidebar } from "@/components/layout/sidebar";
 import { useEffect } from "react";
 import { storage } from "@/lib/storage";
+import { wsService } from "@/lib/websocket";
 
 import Login from "@/pages/login";
 import ProfileSetup from "@/pages/profile-setup";
@@ -58,7 +59,16 @@ function Router() {
   );
 }
 
-function App() {
+export default function App() {
+  // Initialize WebSocket connection
+  useEffect(() => {
+    wsService.connect();
+    return () => {
+      // Cleanup WebSocket connection on unmount
+      wsService.removeMessageHandler(() => {});
+    };
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <Router />
@@ -66,5 +76,3 @@ function App() {
     </QueryClientProvider>
   );
 }
-
-export default App;
