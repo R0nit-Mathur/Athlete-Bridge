@@ -3,11 +3,11 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
 import { Sidebar } from "@/components/layout/sidebar";
-import { useEffect, useState } from "react";
-import { auth } from "@/lib/firebase";
-import { onAuthStateChanged } from "firebase/auth";
+import { useEffect } from "react";
+import { storage } from "@/lib/storage";
 
 import Login from "@/pages/login";
+import ProfileSetup from "@/pages/profile-setup";
 import Home from "@/pages/home";
 import Profile from "@/pages/profile";
 import Reels from "@/pages/reels";
@@ -16,29 +16,22 @@ import Tutorials from "@/pages/tutorials";
 import NotFound from "@/pages/not-found";
 
 function PrivateRoute({ component: Component }: { component: React.ComponentType }) {
-  const [authenticated, setAuthenticated] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [, setLocation] = useLocation();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setAuthenticated(true);
-      } else {
-        setAuthenticated(false);
-        setLocation("/login");
-      }
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
+    // Check if we have a demo user in storage
+    const users = storage.getUsers();
+    if (users.length === 0) {
+      setLocation("/login");
+    }
   }, [setLocation]);
 
-  if (loading) {
-    return <div>Loading...</div>;
+  const users = storage.getUsers();
+  if (users.length === 0) {
+    return null;
   }
 
-  return authenticated ? (
+  return (
     <div className="flex">
       <Sidebar />
       <main className="flex-1 ml-64">
@@ -47,13 +40,14 @@ function PrivateRoute({ component: Component }: { component: React.ComponentType
         </div>
       </main>
     </div>
-  ) : null;
+  );
 }
 
 function Router() {
   return (
     <Switch>
       <Route path="/login" component={Login} />
+      <Route path="/profile-setup" component={ProfileSetup} />
       <Route path="/" component={() => <PrivateRoute component={Home} />} />
       <Route path="/profile" component={() => <PrivateRoute component={Profile} />} />
       <Route path="/reels" component={() => <PrivateRoute component={Reels} />} />
