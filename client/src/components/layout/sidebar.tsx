@@ -3,7 +3,6 @@ import { Home, Film, DollarSign, BookOpen, User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { NotificationsDropdown } from "@/components/ui/notifications";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
 import { storage } from "@/lib/storage";
 
 export function Sidebar() {
@@ -18,51 +17,58 @@ export function Sidebar() {
   ];
 
   return (
-    <div className="w-[275px] h-screen bg-background flex flex-col sticky top-0">
-      {/* Header with logo and notifications */}
-      <div className="p-6 border-b">
-        <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            Athlete Bridge
-          </h1>
-          <NotificationsDropdown />
-        </div>
+    <div className="w-[300px] h-screen bg-background flex flex-col sticky top-0 p-4 border-r border-l border-border">
+      {/* Logo */}
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-3xl font-bold text-primary">Athlete Bridge</h1>
+        <NotificationsDropdown />
       </div>
 
-      {/* Main navigation */}
-      <nav className="flex-1 p-4">
-        <div className="space-y-2">
-          {menuItems.map((item) => (
-            <Link key={item.path} href={item.path}>
-              <Button
-                variant={location === item.path ? "default" : "ghost"}
-                className="w-full justify-start gap-2"
-              >
-                <item.icon className="w-5 h-5" />
-                {item.label}
-              </Button>
-            </Link>
-          ))}
-        </div>
+      {/* Navigation */}
+      <nav className="flex-1 space-y-2">
+        {menuItems.map((item) => (
+          <Link key={item.path} href={item.path}>
+            <Button
+              variant={location === item.path ? "default" : "ghost"}
+              className={`w-full justify-start gap-4 text-lg py-3 px-4 rounded-full 
+                ${location === item.path ? "" : "hover:bg-accent"} 
+                transition`}
+            >
+              <item.icon className="w-6 h-6" />
+              {item.label}
+            </Button>
+          </Link>
+        ))}
       </nav>
 
-      {/* Profile section at bottom */}
-      <div className="p-4 border-t mt-auto">
+      {/* Profile Section */}
+      <div className="border-t pt-4 mt-auto flex flex-col gap-3">
         <Link href="/profile">
           <Button
             variant={location === "/profile" ? "default" : "ghost"}
-            className="w-full justify-start gap-3"
+            className="w-full justify-start gap-3 py-3 px-4 rounded-full hover:bg-accent hover:text-primary transition focus:bg-accent"
           >
-            <Avatar className="w-8 h-8">
+            <Avatar className="w-10 h-10">
               <AvatarImage src={currentUser?.avatar} />
               <AvatarFallback>{currentUser?.name?.[0]}</AvatarFallback>
             </Avatar>
-            <div className="flex-1 text-left">
-              <p className="font-medium line-clamp-1">{currentUser?.name || 'Guest'}</p>
-              <p className="text-sm text-muted-foreground">@{currentUser?.username || 'guest'}</p>
+            <div className="text-left">
+              <p className="font-medium">{currentUser?.name || "Guest"}</p>
+              <p className="text-sm text-muted-foreground">
+                @{currentUser?.username || "guest"}
+              </p>
             </div>
           </Button>
         </Link>
+
+        {/* Logout */}
+        <Button
+          variant="ghost"
+          className="w-full justify-start gap-3 py-3 px-4 rounded-full text-red-500 hover:bg-red-100 transition"
+        >
+          <LogOut className="w-6 h-6" />
+          Logout
+        </Button>
       </div>
     </div>
   );

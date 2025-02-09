@@ -10,27 +10,33 @@ interface FundingCardProps {
 
 export function FundingCard({ request, user }: FundingCardProps) {
   return (
-    <Card>
-      <CardContent className="pt-6">
+    <Card className="shadow-md rounded-lg border border-gray-200">
+      <CardContent className="pt-4 pb-6">
         <div className="flex items-start gap-4 mb-4">
-          <Avatar>
+          <Avatar className="border-2 border-white">
             <AvatarImage src={user.avatar || undefined} />
             <AvatarFallback>{user.name[0]}</AvatarFallback>
           </Avatar>
           <div>
-            <h3 className="font-semibold">{request.title}</h3>
-            <p className="text-sm text-muted-foreground">@{user.username} • {user.sport}</p>
+            <h3 className="font-semibold text-lg text-gray-900">
+              {request.title}
+            </h3>
+            <p className="text-sm text-gray-600">
+              @{user.username} • {user.sport}
+            </p>
           </div>
         </div>
-        <p className="text-sm mb-4">{request.description}</p>
-        <div className="bg-muted p-4 rounded-lg">
-          <p className="text-lg font-semibold">
+        <p className="text-sm text-gray-700 mb-4">{request.description}</p>
+        <div className="bg-gray-100 p-4 rounded-lg">
+          <p className="text-lg font-semibold text-gray-800">
             Target: ${request.amount.toLocaleString()}
           </p>
         </div>
       </CardContent>
       <CardFooter>
-        <Button className="w-full">Support Athlete</Button>
+        <Button className="w-full bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 rounded-md">
+          Support Athlete
+        </Button>
       </CardFooter>
     </Card>
   );

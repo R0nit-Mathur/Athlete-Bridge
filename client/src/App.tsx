@@ -17,7 +17,11 @@ import Funding from "@/pages/funding";
 import Tutorials from "@/pages/tutorials";
 import NotFound from "@/pages/not-found";
 
-function PrivateRoute({ component: Component }: { component: React.ComponentType }) {
+function PrivateRoute({
+  component: Component,
+}: {
+  component: React.ComponentType;
+}) {
   const [, setLocation] = useLocation();
 
   useEffect(() => {
@@ -33,12 +37,12 @@ function PrivateRoute({ component: Component }: { component: React.ComponentType
   }
 
   return (
-    <div className="flex justify-center w-full min-h-screen bg-background">
+    <div className="flex justify-center w-full min-h-screen bg-background border-x border-border">
       <div className="flex w-full max-w-[1280px] mx-auto relative gap-4">
         <div className="w-[275px] flex-shrink-0">
           <Sidebar />
         </div>
-        <main className="w-[600px] min-h-screen border-x border-border flex-shrink-0">
+        <main className="w-[600px] min-h-screen flex-shrink-0">
           <Component />
         </main>
         <div className="w-[350px] flex-shrink-0">
@@ -55,10 +59,22 @@ function Router() {
       <Route path="/login" component={Login} />
       <Route path="/profile-setup" component={ProfileSetup} />
       <Route path="/" component={() => <PrivateRoute component={Home} />} />
-      <Route path="/profile" component={() => <PrivateRoute component={Profile} />} />
-      <Route path="/reels" component={() => <PrivateRoute component={Reels} />} />
-      <Route path="/funding" component={() => <PrivateRoute component={Funding} />} />
-      <Route path="/tutorials" component={() => <PrivateRoute component={Tutorials} />} />
+      <Route
+        path="/profile"
+        component={() => <PrivateRoute component={Profile} />}
+      />
+      <Route
+        path="/reels"
+        component={() => <PrivateRoute component={Reels} />}
+      />
+      <Route
+        path="/funding"
+        component={() => <PrivateRoute component={Funding} />}
+      />
+      <Route
+        path="/tutorials"
+        component={() => <PrivateRoute component={Tutorials} />}
+      />
       <Route component={NotFound} />
     </Switch>
   );

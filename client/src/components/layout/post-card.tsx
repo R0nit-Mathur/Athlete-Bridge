@@ -11,38 +11,54 @@ interface PostCardProps {
 
 export function PostCard({ post, user }: PostCardProps) {
   return (
-    <Card className="mb-4">
-      <CardContent className="pt-6">
-        <div className="flex items-start gap-4">
-          <Avatar>
+    <Card className="mb-4 border border-gray-300 rounded-xl shadow-sm bg-white">
+      <CardContent className="pt-4 px-6">
+        <div className="flex items-start gap-3">
+          <Avatar className="w-12 h-12">
             <AvatarImage src={user.avatar || undefined} />
             <AvatarFallback>{user.name[0]}</AvatarFallback>
           </Avatar>
-          <div>
-            <div className="font-semibold">{user.name}</div>
-            <div className="text-sm text-muted-foreground">@{user.username}</div>
+          <div className="flex-1">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="font-semibold text-gray-900">{user.name}</div>
+                <div className="text-sm text-gray-500">@{user.username}</div>
+              </div>
+            </div>
+            <p className="mt-2 text-gray-800">{post.content}</p>
+            {post.imageUrl && (
+              <img
+                src={post.imageUrl}
+                alt="Post content"
+                className="mt-3 rounded-lg w-full object-cover max-h-96 border border-gray-200"
+              />
+            )}
           </div>
         </div>
-        <p className="mt-4">{post.content}</p>
-        {post.imageUrl && (
-          <img 
-            src={post.imageUrl} 
-            alt="Post content" 
-            className="mt-4 rounded-lg w-full object-cover max-h-96"
-          />
-        )}
       </CardContent>
-      <CardFooter className="flex gap-4">
-        <Button variant="ghost" size="sm">
-          <Heart className="w-4 h-4 mr-2" />
+      <CardFooter className="flex justify-between px-6 py-3 border-t border-gray-200">
+        <Button
+          variant="ghost"
+          size="sm"
+          className="flex items-center text-gray-600 hover:text-red-500"
+        >
+          <Heart className="w-5 h-5 mr-1" />
           Like
         </Button>
-        <Button variant="ghost" size="sm">
-          <MessageCircle className="w-4 h-4 mr-2" />
+        <Button
+          variant="ghost"
+          size="sm"
+          className="flex items-center text-gray-600 hover:text-blue-500"
+        >
+          <MessageCircle className="w-5 h-5 mr-1" />
           Comment
         </Button>
-        <Button variant="ghost" size="sm">
-          <Share2 className="w-4 h-4 mr-2" />
+        <Button
+          variant="ghost"
+          size="sm"
+          className="flex items-center text-gray-600 hover:text-green-500"
+        >
+          <Share2 className="w-5 h-5 mr-1" />
           Share
         </Button>
       </CardFooter>

@@ -1,4 +1,3 @@
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -10,28 +9,24 @@ export default function Profile() {
   const [user, setUser] = useState(storage.getUsers()[0]);
 
   useEffect(() => {
-    // Update user data when storage changes
     const updateUser = () => {
       const currentUser = storage.getUsers()[0];
       if (currentUser) {
         setUser(currentUser);
       }
     };
-    
-    // Initial load
+
     updateUser();
   }, []);
 
   if (!user) {
     return (
-      <div className="container py-6">
-        <div className="max-w-2xl mx-auto">
-          <Card>
-            <CardContent className="py-6">
-              <p className="text-center text-muted-foreground">User not found</p>
-            </CardContent>
-          </Card>
-        </div>
+      <div className="flex justify-center items-center min-h-screen">
+        <Card className="p-6 shadow-lg">
+          <CardContent>
+            <p className="text-center text-gray-500 text-lg">User not found</p>
+          </CardContent>
+        </Card>
       </div>
     );
   }
@@ -39,32 +34,40 @@ export default function Profile() {
   const posts = storage.getPosts().filter((post) => post.userId === user.id);
 
   return (
-    <div className="container py-6">
-      <div className="max-w-2xl mx-auto">
-        <Card className="mb-8">
-          <CardContent className="pt-6">
-            <div className="flex items-start gap-6">
-              <Avatar className="w-20 h-20">
-                <AvatarImage src={user.avatar} />
-                <AvatarFallback>{user.name[0]}</AvatarFallback>
-              </Avatar>
-              <div className="flex-1">
-                <h1 className="text-2xl font-bold">{user.name}</h1>
-                <p className="text-muted-foreground">@{user.username}</p>
-                <p className="mt-2">{user.bio}</p>
-                <div className="mt-4">
-                  <Button variant="outline">Edit Profile</Button>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+    <div className="min-h-screen flex flex-col items-center px-6 py-6">
+      {/* Profile Header */}
+      <div className="bg-blue-500 h-24 w-full"></div>
 
-        <div className="space-y-4">
-          {posts.map((post) => (
-            <PostCard key={post.id} post={post} user={user} />
-          ))}
+      {/* Profile Info */}
+      <div className="bg-white shadow-md p-6 relative w-full max-w-3xl">
+        {/* Avatar */}
+        <div className="absolute -top-12 left-6">
+          <Avatar className="w-24 h-24 border-4 border-white">
+            <AvatarImage src={user.avatar} />
+            <AvatarFallback>{user.name[0]}</AvatarFallback>
+          </Avatar>
         </div>
+
+        {/* Profile Details */}
+        <div className="mt-12 ml-32">
+          <h1 className="text-2xl font-bold">{user.name}</h1>
+          <p className="text-gray-600 text-lg">@{user.username}</p>
+          <p className="text-gray-700 text-base mt-2">{user.bio}</p>
+          <Button className="mt-4 px-6 py-2 bg-blue-500 text-white hover:bg-blue-600 transition">
+            Edit Profile
+          </Button>
+        </div>
+      </div>
+
+      {/* User Posts */}
+      <div className="w-full max-w-3xl mt-6">
+        {posts.length > 0 ? (
+          posts.map((post) => (
+            <PostCard key={post.id} post={post} user={user} />
+          ))
+        ) : (
+          <p className="text-center text-gray-500 text-lg">No posts yet</p>
+        )}
       </div>
     </div>
   );

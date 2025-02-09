@@ -21,24 +21,27 @@ export default function Home() {
       storage.addPost({
         id: 1,
         userId: demoUser.id,
-        content: "Just finished an intense training session! 🏃‍♂️ Working on improving my sprint times. The grind never stops! #Athletics #Training",
+        content:
+          "Just finished an intense training session! 🏃‍♂️ Working on improving my sprint times. The grind never stops! #Athletics #Training",
         imageUrl: "https://picsum.photos/seed/training1/800/600",
-        createdAt: new Date(Date.now() - 3600000) // 1 hour ago
+        createdAt: new Date(Date.now() - 3600000), // 1 hour ago
       });
 
       storage.addPost({
         id: 2,
         userId: demoUser.id,
-        content: "Big news! Qualified for the national championships! 🎉 Thank you to everyone who supported me on this journey. The real work begins now! #Achievements #Sports",
-        createdAt: new Date(Date.now() - 7200000) // 2 hours ago
+        content:
+          "Big news! Qualified for the national championships! 🎉 Thank you to everyone who supported me on this journey. The real work begins now! #Achievements #Sports",
+        createdAt: new Date(Date.now() - 7200000), // 2 hours ago
       });
 
       storage.addPost({
         id: 3,
         userId: demoUser.id,
-        content: "New personal best in today's practice! 💪 Remember: progress is progress, no matter how small. Keep pushing! #Motivation #PersonalBest",
+        content:
+          "New personal best in today's practice! 💪 Remember: progress is progress, no matter how small. Keep pushing! #Motivation #PersonalBest",
         imageUrl: "https://picsum.photos/seed/training2/800/600",
-        createdAt: new Date(Date.now() - 10800000) // 3 hours ago
+        createdAt: new Date(Date.now() - 10800000), // 3 hours ago
       });
     }
   }
@@ -57,7 +60,7 @@ export default function Home() {
   const removeImage = () => {
     setImagePreview(null);
     if (fileInputRef.current) {
-      fileInputRef.current.value = '';
+      fileInputRef.current.value = "";
     }
   };
 
@@ -74,13 +77,13 @@ export default function Home() {
         userId: user.id,
         content: content.trim(),
         imageUrl: imagePreview,
-        createdAt: new Date()
+        createdAt: new Date(),
       });
 
       setContent("");
       setImagePreview(null);
       if (fileInputRef.current) {
-        fileInputRef.current.value = '';
+        fileInputRef.current.value = "";
       }
 
       toast({
@@ -103,13 +106,16 @@ export default function Home() {
 
   return (
     <PageContainer>
-      <div className="max-w-2xl mx-auto px-6">
-        <div className="mb-8">
+      <div className="max-w-2xl mx-auto px-6 py-8 border-none">
+        {" "}
+        {/* Ensures no border */}
+        {/* Create Post Section */}
+        <div className="bg-white shadow-md rounded-lg p-4 mb-8 border-none">
           <Textarea
             placeholder="What's happening in your sports journey?"
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            className="mb-2 min-h-[100px]"
+            className="mb-2 min-h-[100px] border-none rounded-lg text-lg p-4"
           />
           <div className="flex items-center justify-between">
             <div className="flex gap-2">
@@ -124,22 +130,24 @@ export default function Home() {
                 variant="outline"
                 size="icon"
                 onClick={() => fileInputRef.current?.click()}
+                className="hover:bg-gray-100"
               >
                 <Image className="w-4 h-4" />
               </Button>
             </div>
-            <Button 
+            <Button
               onClick={handleSubmit}
               disabled={(!content.trim() && !imagePreview) || isPosting}
+              className="bg-blue-500 text-white hover:bg-blue-600 disabled:bg-blue-300"
             >
               {isPosting ? "Posting..." : "Post"}
             </Button>
           </div>
           {imagePreview && (
             <div className="mt-2 relative">
-              <img 
-                src={imagePreview} 
-                alt="Preview" 
+              <img
+                src={imagePreview}
+                alt="Preview"
                 className="rounded-lg max-h-96 w-full object-cover"
               />
               <Button
@@ -153,8 +161,8 @@ export default function Home() {
             </div>
           )}
         </div>
-
-        <div className="space-y-4">
+        {/* Posts Section */}
+        <div className="space-y-4 border-none">
           {posts.map((post) => (
             <PostCard
               key={post.id}
@@ -164,7 +172,6 @@ export default function Home() {
           ))}
         </div>
       </div>
-      {/* Right sidebar will be rendered here by the layout */}
     </PageContainer>
   );
 }
