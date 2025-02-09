@@ -22,7 +22,7 @@ export function registerRoutes(app: Express) {
   });
 
   app.get("/api/users", async (_req, res) => {
-    const users = await db.select().from(users);
+    const users = await storage.getUsers();
     res.json(users);
   });
 

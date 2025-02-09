@@ -1,9 +1,7 @@
-import { Switch, Route, useLocation } from "wouter";
+import { Switch, Route } from "wouter";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
-import { auth } from "@/lib/firebase";
-import { useEffect, useState } from "react";
 import { Sidebar } from "@/components/layout/sidebar";
 
 import Login from "@/pages/login";
@@ -15,23 +13,14 @@ import Tutorials from "@/pages/tutorials";
 import NotFound from "@/pages/not-found";
 
 function PrivateRoute({ component: Component }: { component: React.ComponentType }) {
-  const [user] = useState(auth.currentUser);
-  const [, setLocation] = useLocation();
-
-  useEffect(() => {
-    if (!user) {
-      setLocation("/login");
-    }
-  }, [user, setLocation]);
-
-  return user ? (
+  return (
     <div className="flex">
       <Sidebar />
       <div className="ml-64 flex-1 p-6">
         <Component />
       </div>
     </div>
-  ) : null;
+  );
 }
 
 function Router() {

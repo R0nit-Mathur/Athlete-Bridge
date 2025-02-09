@@ -16,6 +16,7 @@ import {
 export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
   getUserByUid(uid: string): Promise<User | undefined>;
+  getUsers(): Promise<User[]>;  // Added this method
   createUser(user: Omit<User, "id">): Promise<User>;
   getPosts(): Promise<Post[]>;
   createPost(post: Omit<Post, "id" | "createdAt">): Promise<Post>;
@@ -36,6 +37,10 @@ export class DatabaseStorage implements IStorage {
   async getUserByUid(uid: string): Promise<User | undefined> {
     const [user] = await db.select().from(users).where(eq(users.uid, uid));
     return user;
+  }
+
+  async getUsers(): Promise<User[]> {  // Added this method implementation
+    return db.select().from(users);
   }
 
   async createUser(user: Omit<User, "id">): Promise<User> {
