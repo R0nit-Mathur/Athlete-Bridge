@@ -20,7 +20,7 @@ export const signInWithGoogle = async () => {
     const result = await signInWithPopup(auth, provider);
 
     // Create/update user in our database
-    const response = await fetch('/api/users', {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
