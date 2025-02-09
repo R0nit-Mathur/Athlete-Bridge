@@ -142,7 +142,7 @@ export default function Reels() {
         </Dialog>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="flex flex-col items-center gap-6">
         {reels.map((reel) => (
           <ReelCard
             key={reel.id}

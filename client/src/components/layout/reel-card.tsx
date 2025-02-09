@@ -9,7 +9,7 @@ interface ReelCardProps {
 
 export function ReelCard({ reel, user }: ReelCardProps) {
   return (
-    <Card className="w-80">
+    <Card className="w-[400px]">
       <CardContent className="p-0 relative">
         <div className="aspect-[9/16] bg-muted rounded-t-lg relative">
           <video
