@@ -6,6 +6,7 @@ import { Sidebar } from "@/components/layout/sidebar";
 import { useEffect } from "react";
 import { storage } from "@/lib/storage";
 import { wsService } from "@/lib/websocket";
+import { RightSidebar } from "@/components/layout/right-sidebar";
 
 import Login from "@/pages/login";
 import ProfileSetup from "@/pages/profile-setup";
@@ -20,7 +21,6 @@ function PrivateRoute({ component: Component }: { component: React.ComponentType
   const [, setLocation] = useLocation();
 
   useEffect(() => {
-    // Check if we have a demo user in storage
     const users = storage.getUsers();
     if (users.length === 0) {
       setLocation("/login");
@@ -40,6 +40,7 @@ function PrivateRoute({ component: Component }: { component: React.ComponentType
           <Component />
         </div>
       </main>
+      <RightSidebar />
     </div>
   );
 }
@@ -60,11 +61,9 @@ function Router() {
 }
 
 export default function App() {
-  // Initialize WebSocket connection
   useEffect(() => {
     wsService.connect();
     return () => {
-      // Cleanup WebSocket connection on unmount
       wsService.removeMessageHandler(() => {});
     };
   }, []);
