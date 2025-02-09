@@ -130,20 +130,21 @@ export default function Reels() {
                 <Button 
                   className="w-full" 
                   onClick={handleSubmit}
-                disabled={!formData.title || !formData.videoUrl || isUploading}
-              >
-                {isUploading ? (
-                  <>
-                    <Upload className="w-4 h-4 mr-2 animate-spin" />
-                    Uploading...
-                  </>
-                ) : (
-                  <>
-                    <Upload className="w-4 h-4 mr-2" />
-                    Upload Reel
-                  </>
-                )}
-              </Button>
+                  disabled={!formData.title || !formData.videoUrl || isUploading}
+                >
+                  {isUploading ? (
+                    <>
+                      <Upload className="w-4 h-4 mr-2 animate-spin" />
+                      Uploading...
+                    </>
+                  ) : (
+                    <>
+                      <Upload className="w-4 h-4 mr-2" />
+                      Upload Reel
+                    </>
+                  )}
+                </Button>
+              </DialogClose>
             </div>
           </DialogContent>
         </Dialog>
