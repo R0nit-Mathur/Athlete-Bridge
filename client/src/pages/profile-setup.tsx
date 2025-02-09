@@ -8,6 +8,57 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { storage } from "@/lib/storage";
 import { Textarea } from "@/components/ui/textarea";
 
+const SAMPLE_USERS = [
+  {
+    name: "Emily Chen",
+    username: "emilychen_track",
+    sport: "Track & Field",
+    bio: "Olympic hopeful 🏃‍♀️ | 400m specialist",
+    avatar: "https://api.dicebear.com/7.x/personas/svg?seed=Emily"
+  },
+  {
+    name: "Marcus Johnson",
+    username: "mjhoops",
+    sport: "Basketball",
+    bio: "College athlete 🏀 | Point guard | Living my dream",
+    avatar: "https://api.dicebear.com/7.x/personas/svg?seed=Marcus"
+  },
+  {
+    name: "Sofia Rodriguez",
+    username: "sofia_swim",
+    sport: "Swimming",
+    bio: "National champion 🏊‍♀️ | Butterfly specialist",
+    avatar: "https://api.dicebear.com/7.x/personas/svg?seed=Sofia"
+  },
+  {
+    name: "Alex Thompson",
+    username: "alexthompson",
+    sport: "Soccer",
+    bio: "Professional soccer player ⚽ | Midfielder",
+    avatar: "https://api.dicebear.com/7.x/personas/svg?seed=Alex"
+  },
+  {
+    name: "James Wilson",
+    username: "jwilson_tennis",
+    sport: "Tennis",
+    bio: "Rising tennis star 🎾 | ATP Tour",
+    avatar: "https://api.dicebear.com/7.x/personas/svg?seed=James"
+  }
+];
+
+const SAMPLE_POSTS = [
+  "Just finished a killer training session! 💪 #NoExcuses",
+  "New personal best today! Hard work pays off 🏆",
+  "Beautiful morning for practice ☀️ #RiseAndGrind",
+  "Competition prep mode: Activated 🎯",
+  "Recovery day is just as important as training day 🧘‍♂️",
+  "Team bonding session was amazing! 🤝",
+  "Working on new techniques today 📈",
+  "Pre-competition nerves kicking in! 😅",
+  "Thanks to my amazing coaches and teammates! 🙏",
+  "Back to basics - sometimes you need to reset 🔄"
+];
+
 export default function ProfileSetup() {
   const [, setLocation] = useLocation();
   const [formData, setFormData] = useState({
@@ -19,36 +70,45 @@ export default function ProfileSetup() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Create a demo user
-    const demoUser = {
+
+    // Create the main user
+    const mainUser = {
       id: 1,
-      uid: "demo-user",
+      uid: "main-user",
       name: formData.name,
       username: formData.username,
       sport: formData.sport,
       bio: formData.bio,
-      avatar: `https://api.dicebear.com/7.x/initials/svg?seed=${formData.name}`,
+      avatar: `https://api.dicebear.com/7.x/personas/svg?seed=${formData.name}`,
     };
 
-    // Store the demo user
-    storage.addUser(demoUser);
+    // Add the main user and sample users
+    storage.addUser(mainUser);
 
-    // Add some sample posts for the demo user
-    storage.addPost({
-      id: 1,
-      userId: 1,
-      content: "Just finished an amazing training session! 🏃‍♂️",
-      createdAt: new Date(),
-      imageUrl: "https://picsum.photos/seed/training/800/600"
+    // Add sample users starting from ID 2
+    SAMPLE_USERS.forEach((user, index) => {
+      storage.addUser({
+        id: index + 2,
+        uid: `sample-user-${index}`,
+        ...user,
+      });
     });
 
-    storage.addPost({
-      id: 2,
-      userId: 1,
-      content: "Working on my technique today. Every detail matters! 💪",
-      createdAt: new Date(),
-      imageUrl: "https://picsum.photos/seed/technique/800/600"
+    // Generate sample posts from all users
+    const allUsers = [mainUser, ...SAMPLE_USERS.map((user, index) => ({ ...user, id: index + 2 }))];
+
+    allUsers.forEach(user => {
+      // Generate 5-6 posts per user
+      for (let i = 0; i < Math.floor(Math.random() * 2) + 5; i++) {
+        const hasImage = Math.random() > 0.5;
+        storage.addPost({
+          id: Date.now() + Math.random(),
+          userId: user.id,
+          content: SAMPLE_POSTS[Math.floor(Math.random() * SAMPLE_POSTS.length)],
+          imageUrl: hasImage ? `https://picsum.photos/seed/${user.username}-${i}/800/600` : null,
+          createdAt: new Date(Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000) // Random time within last week
+        });
+      }
     });
 
     // Redirect to home page
@@ -72,7 +132,7 @@ export default function ProfileSetup() {
                 required
               />
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="username">Username</Label>
               <Input
@@ -93,11 +153,11 @@ export default function ProfileSetup() {
                   <SelectValue placeholder="Select your primary sport" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="basketball">Basketball</SelectItem>
-                  <SelectItem value="football">Football</SelectItem>
-                  <SelectItem value="soccer">Soccer</SelectItem>
-                  <SelectItem value="tennis">Tennis</SelectItem>
-                  <SelectItem value="track">Track & Field</SelectItem>
+                  <SelectItem value="Track & Field">Track & Field</SelectItem>
+                  <SelectItem value="Basketball">Basketball</SelectItem>
+                  <SelectItem value="Swimming">Swimming</SelectItem>
+                  <SelectItem value="Soccer">Soccer</SelectItem>
+                  <SelectItem value="Tennis">Tennis</SelectItem>
                 </SelectContent>
               </Select>
             </div>

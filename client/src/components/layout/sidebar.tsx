@@ -1,40 +1,72 @@
 import { Link, useLocation } from "wouter";
-import { Home, Film, DollarSign, BookOpen, User } from "lucide-react";
+import { Home, Film, DollarSign, BookOpen, User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { NotificationsDropdown } from "@/components/ui/notifications";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
+// Mock storage and user data - Replace with actual implementation
+const storage = {
+  getUsers: () => [{ name: ["John", "Doe"], username: "johndoe", avatar: "/avatar.jpg" }],
+};
+
 
 export function Sidebar() {
   const [location] = useLocation();
+  const currentUser = storage.getUsers()[0];
 
   const menuItems = [
     { icon: Home, label: "Home", path: "/" },
     { icon: Film, label: "Reels", path: "/reels" },
     { icon: DollarSign, label: "Funding", path: "/funding" },
     { icon: BookOpen, label: "Tutorials", path: "/tutorials" },
-    { icon: User, label: "Profile", path: "/profile" },
   ];
 
   return (
-    <div className="w-64 h-screen border-r bg-background p-4 fixed">
-      <div className="flex flex-col gap-2">
-        <div className="flex items-center justify-between mb-6">
+    <div className="w-72 h-screen bg-background border-r flex flex-col fixed">
+      {/* Header with logo and notifications */}
+      <div className="p-6 border-b">
+        <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             Athlete Bridge
           </h1>
           <NotificationsDropdown />
         </div>
+      </div>
 
-        {menuItems.map((item) => (
-          <Link key={item.path} href={item.path}>
-            <Button
-              variant={location === item.path ? "default" : "ghost"}
-              className="w-full justify-start gap-2"
-            >
-              <item.icon className="w-5 h-5" />
-              {item.label}
-            </Button>
-          </Link>
-        ))}
+      {/* Main navigation */}
+      <nav className="flex-1 p-4">
+        <div className="space-y-2">
+          {menuItems.map((item) => (
+            <Link key={item.path} href={item.path}>
+              <Button
+                variant={location === item.path ? "default" : "ghost"}
+                className="w-full justify-start gap-2"
+              >
+                <item.icon className="w-5 h-5" />
+                {item.label}
+              </Button>
+            </Link>
+          ))}
+        </div>
+      </nav>
+
+      {/* Profile section at bottom */}
+      <div className="p-4 border-t mt-auto">
+        <Link href="/profile">
+          <Button
+            variant={location === "/profile" ? "default" : "ghost"}
+            className="w-full justify-start gap-3"
+          >
+            <Avatar className="w-8 h-8">
+              <AvatarImage src={currentUser?.avatar} />
+              <AvatarFallback>{currentUser?.name?.[0]}</AvatarFallback>
+            </Avatar>
+            <div className="flex-1 text-left">
+              <p className="font-medium line-clamp-1">{currentUser?.name}</p>
+              <p className="text-sm text-muted-foreground">@{currentUser?.username}</p>
+            </div>
+          </Button>
+        </Link>
       </div>
     </div>
   );

@@ -5,23 +5,32 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 export function RightSidebar() {
   // Sample trending topics
   const trendingTopics = [
-    { tag: "#Basketball", posts: "2.3K" },
-    { tag: "#Olympics2024", posts: "1.8K" },
-    { tag: "#TrainingTips", posts: "1.2K" },
-    { tag: "#Athletics", posts: "950" }
+    { tag: "#Olympics2024", posts: "2.3K" },
+    { tag: "#TrainingCamp", posts: "1.8K" },
+    { tag: "#TeamSpirit", posts: "1.2K" },
+    { tag: "#PersonalBest", posts: "950" }
   ];
 
   // Sample suggested athletes
   const suggestedAthletes = [
-    { name: "Sarah Johnson", username: "sarahj", sport: "Track & Field", avatar: "https://i.pravatar.cc/150?u=sarah" },
-    { name: "Michael Chen", username: "mchenathlete", sport: "Swimming", avatar: "https://i.pravatar.cc/150?u=michael" },
-    { name: "Lisa Rodriguez", username: "lisarodriguez", sport: "Basketball", avatar: "https://i.pravatar.cc/150?u=lisa" }
+    { name: "Sarah Johnson", username: "sarahj", sport: "Track & Field", avatar: "https://api.dicebear.com/7.x/personas/svg?seed=Sarah" },
+    { name: "Michael Chen", username: "mchenathlete", sport: "Swimming", avatar: "https://api.dicebear.com/7.x/personas/svg?seed=Michael" },
+    { name: "Lisa Rodriguez", username: "lisarodriguez", sport: "Basketball", avatar: "https://api.dicebear.com/7.x/personas/svg?seed=Lisa" }
   ];
 
   return (
-    <div className="w-80 p-4 space-y-6 hidden lg:block">
+    <div className="w-80 p-4 space-y-6 border-l h-screen bg-background fixed right-0 top-0 overflow-y-auto">
+      {/* Search Bar */}
+      <div className="relative">
+        <input
+          type="text"
+          placeholder="Search..."
+          className="w-full px-4 py-2 rounded-full bg-muted/50 border focus:outline-none focus:ring-2 focus:ring-primary/20"
+        />
+      </div>
+
       {/* Trending Section */}
-      <Card>
+      <Card className="bg-card/50 backdrop-blur-sm">
         <CardHeader>
           <CardTitle className="text-xl">Trending in Sports</CardTitle>
         </CardHeader>
@@ -40,7 +49,7 @@ export function RightSidebar() {
       </Card>
 
       {/* Suggested Athletes */}
-      <Card>
+      <Card className="bg-card/50 backdrop-blur-sm">
         <CardHeader>
           <CardTitle className="text-xl">Suggested Athletes</CardTitle>
         </CardHeader>
@@ -52,9 +61,9 @@ export function RightSidebar() {
                   <AvatarImage src={athlete.avatar} />
                   <AvatarFallback>{athlete.name[0]}</AvatarFallback>
                 </Avatar>
-                <div className="flex-1">
-                  <p className="font-medium">{athlete.name}</p>
-                  <p className="text-sm text-muted-foreground">@{athlete.username}</p>
+                <div className="flex-1 min-w-0">
+                  <p className="font-medium truncate">{athlete.name}</p>
+                  <p className="text-sm text-muted-foreground truncate">@{athlete.username}</p>
                 </div>
                 <Button variant="outline" size="sm">Follow</Button>
               </div>
