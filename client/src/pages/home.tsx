@@ -1,4 +1,5 @@
 import { PostCard } from "@/components/layout/post-card";
+import { PageContainer } from "@/components/layout/page-container";
 import { Button } from "@/components/ui/button";
 import { PageContainer } from "@/components/layout/page-container";
 import { Textarea } from "@/components/ui/textarea";

@@ -1,3 +1,4 @@
+
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -96,101 +97,102 @@ export default function Tutorials() {
     <div className="ml-72 mr-80 py-6">
       <div className="max-w-4xl mx-auto">
         <div className="flex justify-between items-center mb-12">
-        <h1 className="text-2xl font-bold">Tutorials & Equipment</h1>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button>
-              <Plus className="w-4 h-4 mr-2" />
-              Add Tutorial
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Add New Tutorial</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-4 mt-4">
-              <div className="space-y-2">
-                <Label htmlFor="title">Title</Label>
-                <Input
-                  id="title"
-                  value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  placeholder="Enter tutorial title"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="video">Video URL</Label>
-                <Input
-                  id="video"
-                  value={formData.videoUrl}
-                  onChange={(e) => setFormData({ ...formData, videoUrl: e.target.value })}
-                  placeholder="Enter video URL (e.g., Vimeo, YouTube)"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="sport">Sport</Label>
-                <Select
-                  value={formData.sport}
-                  onValueChange={(value) => setFormData({ ...formData, sport: value })}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select sport category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Track & Field">Track & Field</SelectItem>
-                    <SelectItem value="Basketball">Basketball</SelectItem>
-                    <SelectItem value="Football">Football</SelectItem>
-                    <SelectItem value="Soccer">Soccer</SelectItem>
-                    <SelectItem value="Tennis">Tennis</SelectItem>
-                    <SelectItem value="Swimming">Swimming</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  id="equipment"
-                  checked={formData.equipment}
-                  onChange={(e) => setFormData({ ...formData, equipment: e.target.checked })}
-                  className="rounded border-gray-300"
-                />
-                <Label htmlFor="equipment">This is an equipment guide</Label>
-              </div>
-              <Button 
-                className="w-full" 
-                onClick={handleSubmit}
-                disabled={!formData.title || !formData.videoUrl || !formData.sport || isSubmitting}
-              >
-                {isSubmitting ? "Adding..." : "Add Tutorial"}
+          <h1 className="text-2xl font-bold">Tutorials & Equipment</h1>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button>
+                <Plus className="w-4 h-4 mr-2" />
+                Add Tutorial
               </Button>
-            </div>
-          </DialogContent>
-        </Dialog>
-      </div>
-
-        <div className="flex flex-col gap-8">
-        {tutorials.map((tutorial) => {
-          const user = users.find((u) => u.id === tutorial.userId)!;
-          return (
-            <Card key={tutorial.id}>
-              <CardContent className="p-0">
-                <div className="aspect-video bg-muted">
-                  <iframe
-                    src={tutorial.videoUrl}
-                    className="w-full h-full"
-                    allowFullScreen
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Add New Tutorial</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4 mt-4">
+                <div className="space-y-2">
+                  <Label htmlFor="title">Title</Label>
+                  <Input
+                    id="title"
+                    value={formData.title}
+                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                    placeholder="Enter tutorial title"
                   />
                 </div>
-                <div className="p-4">
-                  <h3 className="font-semibold mb-1">{tutorial.title}</h3>
-                  <p className="text-sm text-muted-foreground">
-                    by {user.name} • {tutorial.sport}
-                  </p>
+                <div className="space-y-2">
+                  <Label htmlFor="video">Video URL</Label>
+                  <Input
+                    id="video"
+                    value={formData.videoUrl}
+                    onChange={(e) => setFormData({ ...formData, videoUrl: e.target.value })}
+                    placeholder="Enter video URL (e.g., Vimeo, YouTube)"
+                  />
                 </div>
-              </CardContent>
-            </Card>
-          );
-        })}
+                <div className="space-y-2">
+                  <Label htmlFor="sport">Sport</Label>
+                  <Select
+                    value={formData.sport}
+                    onValueChange={(value) => setFormData({ ...formData, sport: value })}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select sport category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Track & Field">Track & Field</SelectItem>
+                      <SelectItem value="Basketball">Basketball</SelectItem>
+                      <SelectItem value="Football">Football</SelectItem>
+                      <SelectItem value="Soccer">Soccer</SelectItem>
+                      <SelectItem value="Tennis">Tennis</SelectItem>
+                      <SelectItem value="Swimming">Swimming</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="equipment"
+                    checked={formData.equipment}
+                    onChange={(e) => setFormData({ ...formData, equipment: e.target.checked })}
+                    className="rounded border-gray-300"
+                  />
+                  <Label htmlFor="equipment">This is an equipment guide</Label>
+                </div>
+                <Button 
+                  className="w-full" 
+                  onClick={handleSubmit}
+                  disabled={!formData.title || !formData.videoUrl || !formData.sport || isSubmitting}
+                >
+                  {isSubmitting ? "Adding..." : "Add Tutorial"}
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+        </div>
+
+        <div className="flex flex-col gap-8">
+          {tutorials.map((tutorial) => {
+            const user = users.find((u) => u.id === tutorial.userId)!;
+            return (
+              <Card key={tutorial.id}>
+                <CardContent className="p-0">
+                  <div className="aspect-video bg-muted">
+                    <iframe
+                      src={tutorial.videoUrl}
+                      className="w-full h-full"
+                      allowFullScreen
+                    />
+                  </div>
+                  <div className="p-4">
+                    <h3 className="font-semibold mb-1">{tutorial.title}</h3>
+                    <p className="text-sm text-muted-foreground">
+                      by {user.name} • {tutorial.sport}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
