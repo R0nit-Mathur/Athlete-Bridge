@@ -1,4 +1,17 @@
-import type { User, Post, Reel, FundingRequest, Tutorial } from "@shared/schema";
+import { db } from "./db";
+import { desc, eq } from "drizzle-orm";
+import {
+  users,
+  posts,
+  reels,
+  fundingRequests,
+  tutorials,
+  type User,
+  type Post,
+  type Reel,
+  type FundingRequest,
+  type Tutorial
+} from "@shared/schema";
 
 export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
@@ -14,95 +27,57 @@ export interface IStorage {
   createTutorial(tutorial: Omit<Tutorial, "id" | "createdAt">): Promise<Tutorial>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<number, User>;
-  private posts: Map<number, Post>;
-  private reels: Map<number, Reel>;
-  private fundingRequests: Map<number, FundingRequest>;
-  private tutorials: Map<number, Tutorial>;
-  private currentIds: { [key: string]: number };
-
-  constructor() {
-    this.users = new Map();
-    this.posts = new Map();
-    this.reels = new Map();
-    this.fundingRequests = new Map();
-    this.tutorials = new Map();
-    this.currentIds = {
-      users: 1,
-      posts: 1,
-      reels: 1,
-      fundingRequests: 1,
-      tutorials: 1,
-    };
-  }
-
+export class DatabaseStorage implements IStorage {
   async getUser(id: number): Promise<User | undefined> {
-    return this.users.get(id);
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user;
   }
 
   async getUserByUid(uid: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find((user) => user.uid === uid);
+    const [user] = await db.select().from(users).where(eq(users.uid, uid));
+    return user;
   }
 
   async createUser(user: Omit<User, "id">): Promise<User> {
-    const id = this.currentIds.users++;
-    const newUser = { ...user, id };
-    this.users.set(id, newUser);
+    const [newUser] = await db.insert(users).values(user).returning();
     return newUser;
   }
 
   async getPosts(): Promise<Post[]> {
-    return Array.from(this.posts.values()).sort((a, b) =>
-      b.createdAt.getTime() - a.createdAt.getTime()
-    );
+    return db.select().from(posts).orderBy(desc(posts.createdAt));
   }
 
   async createPost(post: Omit<Post, "id" | "createdAt">): Promise<Post> {
-    const id = this.currentIds.posts++;
-    const newPost = { ...post, id, createdAt: new Date() };
-    this.posts.set(id, newPost);
+    const [newPost] = await db.insert(posts).values(post).returning();
     return newPost;
   }
 
   async getReels(): Promise<Reel[]> {
-    return Array.from(this.reels.values()).sort((a, b) =>
-      b.createdAt.getTime() - a.createdAt.getTime()
-    );
+    return db.select().from(reels).orderBy(desc(reels.createdAt));
   }
 
   async createReel(reel: Omit<Reel, "id" | "createdAt">): Promise<Reel> {
-    const id = this.currentIds.reels++;
-    const newReel = { ...reel, id, createdAt: new Date() };
-    this.reels.set(id, newReel);
+    const [newReel] = await db.insert(reels).values(reel).returning();
     return newReel;
   }
 
   async getFundingRequests(): Promise<FundingRequest[]> {
-    return Array.from(this.fundingRequests.values()).sort((a, b) =>
-      b.createdAt.getTime() - a.createdAt.getTime()
-    );
+    return db.select().from(fundingRequests).orderBy(desc(fundingRequests.createdAt));
   }
 
   async createFundingRequest(request: Omit<FundingRequest, "id" | "createdAt">): Promise<FundingRequest> {
-    const id = this.currentIds.fundingRequests++;
-    const newRequest = { ...request, id, createdAt: new Date() };
-    this.fundingRequests.set(id, newRequest);
+    const [newRequest] = await db.insert(fundingRequests).values(request).returning();
     return newRequest;
   }
 
   async getTutorials(): Promise<Tutorial[]> {
-    return Array.from(this.tutorials.values()).sort((a, b) =>
-      b.createdAt.getTime() - a.createdAt.getTime()
-    );
+    return db.select().from(tutorials).orderBy(desc(tutorials.createdAt));
   }
 
   async createTutorial(tutorial: Omit<Tutorial, "id" | "createdAt">): Promise<Tutorial> {
-    const id = this.currentIds.tutorials++;
-    const newTutorial = { ...tutorial, id, createdAt: new Date() };
-    this.tutorials.set(id, newTutorial);
+    const [newTutorial] = await db.insert(tutorials).values(tutorial).returning();
     return newTutorial;
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();

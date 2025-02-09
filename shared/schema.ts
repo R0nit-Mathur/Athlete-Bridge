@@ -14,7 +14,7 @@ export const users = pgTable("users", {
 
 export const posts = pgTable("posts", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull(),
+  userId: integer("user_id").notNull().references(() => users.id),
   content: text("content").notNull(),
   imageUrl: text("image_url"),
   createdAt: timestamp("created_at").defaultNow(),
@@ -22,7 +22,7 @@ export const posts = pgTable("posts", {
 
 export const reels = pgTable("reels", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull(),
+  userId: integer("user_id").notNull().references(() => users.id),
   title: text("title").notNull(),
   videoUrl: text("video_url").notNull(),
   thumbnail: text("thumbnail"),
@@ -31,7 +31,7 @@ export const reels = pgTable("reels", {
 
 export const fundingRequests = pgTable("funding_requests", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull(),
+  userId: integer("user_id").notNull().references(() => users.id),
   title: text("title").notNull(),
   description: text("description").notNull(),
   amount: integer("amount").notNull(),
@@ -40,7 +40,7 @@ export const fundingRequests = pgTable("funding_requests", {
 
 export const tutorials = pgTable("tutorials", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull(),
+  userId: integer("user_id").notNull().references(() => users.id),
   title: text("title").notNull(),
   videoUrl: text("video_url").notNull(),
   sport: text("sport").notNull(),

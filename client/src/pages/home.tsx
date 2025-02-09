@@ -2,33 +2,55 @@ import { PostCard } from "@/components/layout/post-card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { storage } from "@/lib/storage";
 import { auth } from "@/lib/firebase";
 import { useState } from "react";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { queryClient, apiRequest } from "@/lib/queryClient";
+import type { Post, User } from "@shared/schema";
 
 export default function Home() {
   const [content, setContent] = useState("");
   const { toast } = useToast();
-  const posts = storage.getPosts();
-  const users = storage.getUsers();
+
+  const { data: posts = [] } = useQuery<Post[]>({
+    queryKey: ['/api/posts']
+  });
+
+  const { data: users = [] } = useQuery<User[]>({
+    queryKey: ['/api/users']
+  });
+
+  const createPost = useMutation({
+    mutationFn: async (content: string) => {
+      if (!auth.currentUser) throw new Error("Not authenticated");
+
+      const res = await apiRequest('POST', '/api/posts', {
+        userId: 1, // TODO: Get actual user ID
+        content,
+        imageUrl: null
+      });
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/posts'] });
+      setContent("");
+      toast({
+        title: "Success",
+        description: "Post created successfully",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
 
   const handleSubmit = () => {
     if (!content.trim() || !auth.currentUser) return;
-
-    const newPost = {
-      id: Date.now(),
-      userId: 1, // Simplified for local storage
-      content,
-      imageUrl: null,
-      createdAt: new Date(),
-    };
-
-    storage.addPost(newPost);
-    setContent("");
-    toast({
-      title: "Success",
-      description: "Post created successfully",
-    });
+    createPost.mutate(content);
   };
 
   return (
@@ -40,8 +62,11 @@ export default function Home() {
           onChange={(e) => setContent(e.target.value)}
           className="mb-2"
         />
-        <Button onClick={handleSubmit} disabled={!content.trim()}>
-          Post
+        <Button 
+          onClick={handleSubmit} 
+          disabled={!content.trim() || createPost.isPending}
+        >
+          {createPost.isPending ? "Posting..." : "Post"}
         </Button>
       </div>
 

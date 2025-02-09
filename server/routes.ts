@@ -21,6 +21,11 @@ export function registerRoutes(app: Express) {
     res.status(201).json(user);
   });
 
+  app.get("/api/users", async (_req, res) => {
+    const users = await db.select().from(users);
+    res.json(users);
+  });
+
   // Post routes
   app.get("/api/posts", async (_req, res) => {
     const posts = await storage.getPosts();
